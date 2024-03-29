@@ -1,8 +1,6 @@
 package com.example.sorteiosdamega;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -16,16 +14,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button drawButton;
     private TextView result;
-
-    private SQLiteDatabase dataBase;
+    private DatabaseHelper database;
+    private Button listResults;
 
 
     @Override
@@ -39,8 +35,18 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        createDataBase();
-        drawButton = findViewById(R.id.drawButton);
+        database = new DatabaseHelper(MainActivity.this);
+
+        listResults = findViewById(R.id.listResults);
+
+        listResults.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               Intent intent = new Intent(MainActivity.this, ListActivity.class);
+               startActivity(intent);
+            }
+        });
 
     }
 
@@ -67,66 +73,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        System.out.println("função geradora de numeros ");
-    saveOnDatabase(numerousSortedset.stream().toList());
+        database.saveOnDatabase(numerousSortedset.stream().toList());
 
         result.setText(numerousSortedset.toString().replaceAll("[\\[\\],]", " "));
     }
 
-    public void createDataBase(){
-        try{
-            System.out.println("criando database");
-            dataBase = openOrCreateDatabase("sorteio", MODE_PRIVATE,null);
-            dataBase.execSQL("CREATE TABLE IF NOT EXISTS sorteio("
-                    + " id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + " first_number TINYINT, "
-                    + " second_number TINYINT, "
-                    + " third_number TINYINT, "
-                    + " fourth_number TINYINT, "
-                    + " fifth_number TINYINT, "
-                    + " sixth_number TINYINT " + ")");
-            dataBase.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
-    public void saveOnDatabase(List<Integer> numerousSorted){
-        SQLiteDatabase database = openOrCreateDatabase("sorteio", MODE_PRIVATE, null);
-        System.out.println("save on database"+ numerousSorted.toString());
-
-        // Insira os números sorteados na tabela
-        ContentValues values = new ContentValues();
-        if (numerousSorted.size() >= 6) {
-            values.put("first_number", numerousSorted.get(0));
-            values.put("second_number", numerousSorted.get(1));
-            values.put("third_number", numerousSorted.get(2));
-            values.put("fourth_number", numerousSorted.get(3));
-            values.put("fifth_number", numerousSorted.get(4));
-            values.put("sixth_number", numerousSorted.get(5));
-        }
-
-        long id = database.insert("sorteio", null, values);
-        System.out.println("id -> " + id);
-        database.close();
-    }
-
-    public void selectFromDatabase(){
-        SQLiteDatabase database = openOrCreateDatabase("sorteio", MODE_PRIVATE, null);
-        System.out.println("select from database");
-
-        try  {
-            Cursor cursor = database.rawQuery("SELECT first_number, second_number, third_number, fourth_number, fifth_number, sixth_number FROM sorteio", null);
-
-            int i = 0;
-            while(cursor.moveToNext()){
-                System.out.println(cursor.getInt(i));
-                i++;
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-    }
 }
