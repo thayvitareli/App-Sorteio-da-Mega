@@ -1,4 +1,4 @@
-package com.example.sorteiosdamega;
+package com.example.sorteiosdamega.activity;
 
 import android.database.Cursor;
 import android.os.Build;
@@ -13,6 +13,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.sorteiosdamega.database.DatabaseHelper;
+import com.example.sorteiosdamega.R;
+import com.example.sorteiosdamega.adapter.CustomAdapter;
 
 import java.util.ArrayList;
 
@@ -76,20 +80,8 @@ public class ListActivity extends AppCompatActivity {
                 fifth_number.add(cursor.getInt(5));
                 sixth_number.add(cursor.getInt(6));
 
-                /*
-                System.out.println(cursor.getColumnName(0) + cursor.getInt(0));
-                System.out.println(cursor.getInt(1));
-                System.out.println(cursor.getInt(2));
-                System.out.println(cursor.getInt(3));
-                System.out.println(cursor.getInt(4));
-                System.out.println(cursor.getInt(5));
-                System.out.println(cursor.getInt(6));
-
-                 */
             }
         }
 
-            //empty_imageview.setVisibility(View.GONE);
-            //no_data.setVisibility(View.GONE);
         }
     }

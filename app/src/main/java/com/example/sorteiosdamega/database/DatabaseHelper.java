@@ -1,4 +1,4 @@
-package com.example.sorteiosdamega;
+package com.example.sorteiosdamega.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -28,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_SIXTH_NUMBER= "sixth_number";
 
 
-    DatabaseHelper(@Nullable Context context) {
+    public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
@@ -53,28 +53,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    /*
-    public void saveOnDatabase(List<Integer> numerousSorted){
-        SQLiteDatabase database = openOrCreateDatabase("sorteio", MODE_PRIVATE, null);
-        System.out.println("save on database"+ numerousSorted.toString());
 
-        // Insira os números sorteados na tabela
-        ContentValues values = new ContentValues();
-        if (numerousSorted.size() >= 6) {
-            values.put("first_number", numerousSorted.get(0));
-            values.put("second_number", numerousSorted.get(1));
-            values.put("third_number", numerousSorted.get(2));
-            values.put("fourth_number", numerousSorted.get(3));
-            values.put("fifth_number", numerousSorted.get(4));
-            values.put("sixth_number", numerousSorted.get(5));
-        }
 
-        long id = database.insert("sorteio", null, values);
-        System.out.println("id -> " + id);
-        database.close();
-    } */
-
-    Cursor readAllData(){
+    public Cursor readAllData(){
 
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();

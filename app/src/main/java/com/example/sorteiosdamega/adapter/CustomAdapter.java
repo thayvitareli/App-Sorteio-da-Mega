@@ -1,4 +1,4 @@
-package com.example.sorteiosdamega;
+package com.example.sorteiosdamega.adapter;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,11 +10,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sorteiosdamega.R;
+
 import java.util.ArrayList;
+
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
 
     private final Context context;
+
+    // Possui um array para cada conjunto de numero sorteado. Ex: todos os primeiros números sorteados, estão salvos no array first_number
     private ArrayList<Integer> id, first_number,second_number,third_number,fourth_number,fifth_number,sixth_number;
     private SQLiteDatabase dataBase;
 
@@ -29,6 +34,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.sixth_number = sixth_number;
     }
 
+
+    // Faz a troca do conteúdo
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,6 +56,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.sixth_text.setText(String.valueOf(sixth_number.get(position)));
     }
 
+    //conta a quantidade de itens da lista
     @Override
     public int getItemCount() {
         int maxSize = Math.max(id.size(), Math.max(first_number.size(), Math.max(second_number.size(),
@@ -57,6 +65,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return maxSize;
     }
 
+
+    // Método para criar novo View Holder
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView id_text, first_text, second_text, third_text, fourth_text,fifth_text, sixth_text;
@@ -70,7 +80,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             fourth_text = itemView.findViewById(R.id.fourth_text);
             fifth_text = itemView.findViewById(R.id.fifth_text);
             sixth_text = itemView.findViewById(R.id.sixth_text);
-
 
         }
     }
